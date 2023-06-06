@@ -11,7 +11,7 @@ public class LazySubject<T> : SubjectBase<T>
     private object firstValueLock = new();
 
     private readonly ConcurrentDictionary<IObserver<T>, IObserver<T>> observers = new();
-    private T value = default(T);
+    private T? value = default(T);
     private bool hasValue = false;
     private bool disposed = false;
 
@@ -61,7 +61,7 @@ public class LazySubject<T> : SubjectBase<T>
     {
         if (hasValue)
         {
-            return Task.FromResult(value);
+            return Task.FromResult(value)!;
         }
 
         lock (firstValueLock)

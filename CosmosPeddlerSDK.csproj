@@ -1,10 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
+    <OutputType>Library</OutputType>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>CosmosPeddler.SDK</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>AP2</Authors>
     <Company>AP2</Company>
     <PackageProjectURL>https://github.com/AndrewPerson/Cosmos-Peddler-SDK</PackageProjectURL>

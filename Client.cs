@@ -1,5 +1,5 @@
-﻿using System.Reactive.Linq;
-using System.Text.Json;
+﻿using System.Text.Json;
+using System.Reactive.Linq;
 
 using Polly;
 using Polly.Retry;
@@ -76,7 +76,6 @@ public class CosmosPeddlerClient
         return CosmosPeddlerClient.FromToken(data.GetProperty("token").GetString()!, logger);
     }
 
-
     private static string ExtractSystemSymbolFromWaypointSymbol(string waypointSymbol)
     {
         // TODO Make this more robust.
@@ -142,7 +141,7 @@ public class CosmosPeddlerClient
         var client = new SpaceTradersClient(new HttpClient(new SpaceTradersHandler(new HttpClientHandler())));
 
         int total;
-        int currentPage = 0;
+        int currentPage = 1;
         do
         {
             var data = await retry429Policy.ExecuteAsync(() => client.GetFactionsAsync(currentPage, pageSize));
@@ -184,7 +183,7 @@ public class CosmosPeddlerClient
     private async IAsyncEnumerable<Ship> GetAllShips(int pageSize = 10)
     {
         int total;
-        int currentPage = 0;
+        int currentPage = 1;
         do
         {
             var data = await retry429Policy.ExecuteAsync(() => client.GetMyShipsAsync(currentPage, pageSize));
@@ -432,7 +431,7 @@ public class CosmosPeddlerClient
     private async IAsyncEnumerable<SolarSystemData> GetSolarSystems(int pageSize = 10)
     {
         int total;
-        int currentPage = 0;
+        int currentPage = 1;
         do
         {
             var data = await retry429Policy.ExecuteAsync(() => client.GetSystemsAsync(currentPage, pageSize));

@@ -90,7 +90,7 @@ public class LazyUniqueBySubject<UniqueByT, ValueT> : IObserver<ValueT>, IObserv
             return (true, foundValue);
         }
 
-        return (false, default(ValueT));
+        return (false, default(ValueT)!);
     }
 
     /// <summary>
@@ -98,7 +98,7 @@ public class LazyUniqueBySubject<UniqueByT, ValueT> : IObserver<ValueT>, IObserv
     /// </summary>
     public bool TryGetValueInstant(UniqueByT key, out ValueT value)
     {
-        if (values.TryGetValue(key, out value))
+        if (values.TryGetValue(key, out value!))
         {
             return true;
         }
