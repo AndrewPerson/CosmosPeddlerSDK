@@ -30,4 +30,4 @@ jobs:
     - name: Push Nuget Package
       env:
         API_KEY: ${{ secrets.ApiKey }}
-      run: dotnet nuget push ./out/*.nupkg --skip-duplicate --no-symbols true --source https://api.nuget.org/v3/index.json --api-key "$API_KEY"
+      run: dotnet nuget push ./out/*.nupkg --skip-duplicate --source https://api.nuget.org/v3/index.json --api-key "$API_KEY"
