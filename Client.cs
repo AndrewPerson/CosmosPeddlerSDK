@@ -145,7 +145,7 @@ public class CosmosPeddlerClient
         int currentPage = 0;
         do
         {
-            var data = await retry429Policy.ExecuteAsync(() => client.GetFactionsAsync(currentPage, currentPage));
+            var data = await retry429Policy.ExecuteAsync(() => client.GetFactionsAsync(currentPage, pageSize));
 
             total = data.Meta.Total;
     
@@ -187,7 +187,7 @@ public class CosmosPeddlerClient
         int currentPage = 0;
         do
         {
-            var data = await retry429Policy.ExecuteAsync(() => client.GetMyShipsAsync(currentPage, currentPage));
+            var data = await retry429Policy.ExecuteAsync(() => client.GetMyShipsAsync(currentPage, pageSize));
 
             total = data.Meta.Total;
     
@@ -435,7 +435,7 @@ public class CosmosPeddlerClient
         int currentPage = 0;
         do
         {
-            var data = await retry429Policy.ExecuteAsync(() => client.GetSystemsAsync(currentPage, currentPage));
+            var data = await retry429Policy.ExecuteAsync(() => client.GetSystemsAsync(currentPage, pageSize));
 
             total = data.Meta.Total;
     
