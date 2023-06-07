@@ -121,19 +121,9 @@ public class CosmosPeddlerClient
         await File.WriteAllTextAsync(file, json);
     }
 
-    public async Task<bool> HasValidToken()
+    public Task<bool> HasValidToken()
     {
-        try
-        {
-            await retry429Policy.ExecuteAsync(client.GetMyAgentAsync);
-            return true;
-        }
-        catch (ApiException e)
-        {
-            if (e.StatusCode == 401) return false;
-            else if (e.StatusCode == 400) return false;
-            else throw e;
-        }
+        return retry429Policy.ExecuteAsync(client.GetMyAgentAsync).ContinueWith(t => t.IsCompletedSuccessfully);
     }
 
 #region factions
