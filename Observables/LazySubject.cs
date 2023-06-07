@@ -113,30 +113,12 @@ public class LazySubject<T> : SubjectBase<T>
 
     public override IDisposable Subscribe(IObserver<T> observer)
     {
-        if (!hasValue)
-        {
-            lock (firstValueLock)
-            {
-                if (!gettingFirstValue)
-                {
-                    gettingFirstValue = true;
-
-                    firstValue().ContinueWith(t =>
-                    {
-                        value = t.Result;
-                        hasValue = true;
-                        firstValueTCS.SetResult(t.Result);
-                    });
-                }
-            }
-        }
-
         observers.AddOrUpdate(observer, _ => observer, (_, _) => observer);
 
-        if (value != null)
+        EnsureFirstValue().ContinueWith(_ =>
         {
-            observer.OnNext(value);
-        }
+            observer.OnNext(value!);
+        });
 
         return new Unsubscriber(this, observer);
     }
