@@ -131,6 +131,7 @@ public class CosmosPeddlerClient
         catch (ApiException e)
         {
             if (e.StatusCode == 401) return false;
+            else if (e.StatusCode == 400) return false;
             else throw e;
         }
     }
