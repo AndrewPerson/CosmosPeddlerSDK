@@ -229,7 +229,7 @@ public record struct Mount
     string Description,
     int Strength,
     // TODO Make own enum.
-    Deposits[] Deposits,
+    Deposits[]? Deposits,
     Requirements Requirements
 )
 {
@@ -240,7 +240,7 @@ public record struct Mount
             Name: data.Name,
             Description: data.Description,
             Strength: data.Strength,
-            Deposits: data.Deposits.ToArray(),
+            Deposits: data.Deposits?.ToArray(),
             Requirements: Requirements.FromInternal(data.Requirements)
         );
 }
