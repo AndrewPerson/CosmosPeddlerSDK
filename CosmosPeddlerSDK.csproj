@@ -4,8 +4,9 @@
     <OutputType>Library</OutputType>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <DebugType>embedded</DebugType>
     <PackageId>CosmosPeddler.SDK</PackageId>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <Authors>AP2</Authors>
     <Company>AP2</Company>
     <PackageProjectURL>https://github.com/AndrewPerson/Cosmos-Peddler-SDK</PackageProjectURL>
