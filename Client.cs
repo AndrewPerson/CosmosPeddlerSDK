@@ -27,7 +27,7 @@ public class CosmosPeddlerClient
                 }
                 else return TimeSpan.FromSeconds(2);
             },
-            onRetryAsync: (_, _, _, _) => Task.CompletedTask
+            onRetryAsync: (_, _, _) => Task.CompletedTask
         );
 
     private ICosmosLogger? logger;
@@ -127,7 +127,7 @@ public class CosmosPeddlerClient
     }
 
 #region factions
-    public static async IAsyncEnumerable<FullFaction> GetAllFactions(int pageSize = 10)
+    public static async IAsyncEnumerable<FullFaction> GetAllFactions(int pageSize = 20)
     {
         var client = new SpaceTradersClient(new HttpClient(new SpaceTradersHandler(new HttpClientHandler())));
 
@@ -171,7 +171,7 @@ public class CosmosPeddlerClient
 #endregion
 
 #region fleet
-    private async IAsyncEnumerable<Ship> GetAllShips(int pageSize = 10)
+    private async IAsyncEnumerable<Ship> GetAllShips(int pageSize = 20)
     {
         int total;
         int currentPage = 1;
@@ -419,22 +419,16 @@ public class CosmosPeddlerClient
 #endregion
 
 #region systems
-    private async IAsyncEnumerable<SolarSystemData> GetSolarSystems(int pageSize = 10)
+    private async IAsyncEnumerable<SolarSystemData> GetSolarSystems()
     {
-        int total;
-        int currentPage = 1;
-        do
-        {
-            var data = await retry429Policy.ExecuteAsync(() => client.GetSystemsAsync(currentPage, pageSize));
+        var response = await client.HttpClient.GetAsync("https://api.spacetraders.io/v2/systems.json");
 
-            total = data.Meta.Total;
-    
-            foreach (var system in data.Data.Select(SolarSystem.FromInternal))
-            {
-                yield return system;
-            }
+        var data = Newtonsoft.Json.JsonConvert.DeserializeObject<Internal.SolarSystem[]>(await response.Content.ReadAsStringAsync(), client.JsonSettings)!;
+
+        foreach (var system in data)
+        {
+            yield return SolarSystemData.FromInternal(system);
         }
-        while (total > pageSize * currentPage++);
     }
 
     private async Task<Waypoint> GetWaypoint(string waypointSymbol)

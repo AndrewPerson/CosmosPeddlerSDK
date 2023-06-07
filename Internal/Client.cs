@@ -1,9 +1,13 @@
 using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace CosmosPeddler.SDK.Internal;
 
 public partial class SpaceTradersClient
 {
+    public JsonSerializerSettings JsonSettings => JsonSerializerSettings;
+    public HttpClient HttpClient => _httpClient;
+
     public string Token => token;
     private string token;
 
