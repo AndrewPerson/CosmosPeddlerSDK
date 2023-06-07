@@ -7,9 +7,8 @@ public partial class SpaceTradersClient
     public string Token => token;
     private string token;
 
-    public SpaceTradersClient(HttpClient client, string token)
+    public SpaceTradersClient(HttpClient client, string token) : this(client)
     {
-        this._httpClient = client;
         this.token = token;
     }
 
