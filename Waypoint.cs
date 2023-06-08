@@ -10,7 +10,7 @@ public record struct Waypoint
     int X,
     int Y,
     Orbital[] Orbitals,
-    Faction Faction,
+    Faction? Faction,
     Trait[] Traits
 )
 {
@@ -23,7 +23,7 @@ public record struct Waypoint
             X: data.X,
             Y: data.Y,
             Orbitals: data.Orbitals.Select(Orbital.FromInternal).ToArray(),
-            Faction: Faction.FromInternal(data.Faction),
+            Faction: data.Faction == null ? null : SDK.Faction.FromInternal(data.Faction),
             Traits: data.Traits.Select(Trait.FromInternal).ToArray()
         );
 }
