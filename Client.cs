@@ -1,4 +1,4 @@
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Reactive.Linq;
 
 using Polly;
@@ -76,12 +76,6 @@ public class CosmosPeddlerClient
         return CosmosPeddlerClient.FromToken(data.GetProperty("token").GetString()!, logger);
     }
 
-    private static string ExtractSystemSymbolFromWaypointSymbol(string waypointSymbol)
-    {
-        // TODO Make this more robust.
-        return waypointSymbol.Split('-').SkipLast(1).Aggregate((a, b) => $"{a}-{b}");
-    }
-
     private CosmosPeddlerClient(string token, ICosmosLogger? logger = null)
     {
         client = new SpaceTradersClient(new HttpClient(new SpaceTradersHandler(new HttpClientHandler(), logger)), token);
@@ -151,7 +145,7 @@ public class CosmosPeddlerClient
 #region market
     public async Task<Market> GetMarket(string waypointSymbol)
     {
-        var systemSymbol = ExtractSystemSymbolFromWaypointSymbol(waypointSymbol);
+        var systemSymbol = waypointSymbol.ExtractSystemSymbolFromWaypointSymbol();
 
         var data = await retry429Policy.ExecuteAsync(() => client.GetMarketAsync(systemSymbol, waypointSymbol));
 
@@ -162,7 +156,7 @@ public class CosmosPeddlerClient
 #region shipyard
     public async Task<Shipyard> GetShipyard(string waypointSymbol)
     {
-        var systemSymbol = ExtractSystemSymbolFromWaypointSymbol(waypointSymbol);
+        var systemSymbol = waypointSymbol.ExtractSystemSymbolFromWaypointSymbol();
 
         var data = await retry429Policy.ExecuteAsync(() => client.GetShipyardAsync(systemSymbol, waypointSymbol));
 
@@ -433,7 +427,7 @@ public class CosmosPeddlerClient
 
     private async Task<Waypoint> GetWaypoint(string waypointSymbol)
     {
-        var systemSymbol = ExtractSystemSymbolFromWaypointSymbol(waypointSymbol);
+        var systemSymbol = waypointSymbol.ExtractSystemSymbolFromWaypointSymbol();
 
         var data = await retry429Policy.ExecuteAsync(() => client.GetWaypointAsync(systemSymbol, waypointSymbol));
 
