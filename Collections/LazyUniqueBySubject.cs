@@ -1,8 +1,6 @@
 using System.Collections.Concurrent;
-using System.Diagnostics.CodeAnalysis;
-using System.Reactive.Subjects;
 
-namespace CosmosPeddler.SDK.Observables;
+namespace CosmosPeddler.SDK.Collections;
 
 public class LazyUniqueBySubject<UniqueByT, ValueT> : IObserver<ValueT>, IObservable<(UniqueByT, ValueT)> where UniqueByT : notnull
 {

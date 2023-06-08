@@ -1,8 +1,8 @@
 using System.Collections.Concurrent;
 
-namespace CosmosPeddler.SDK.Observables;
+namespace CosmosPeddler.SDK.Collections;
 
-public class IndividualLazyUniqueBySubject<UniqueByT, ValueT> where UniqueByT : notnull
+public class IndividualLazyUnique<UniqueByT, ValueT> where UniqueByT : notnull
 {
     private readonly Func<UniqueByT, Task<ValueT>> valueFactory;
     private readonly ConcurrentDictionary<UniqueByT, LazySubject<ValueT>> _subjects = new();
@@ -40,7 +40,7 @@ public class IndividualLazyUniqueBySubject<UniqueByT, ValueT> where UniqueByT : 
         );
     }
 
-    public IndividualLazyUniqueBySubject(Func<UniqueByT, Task<ValueT>> valueFactory)
+    public IndividualLazyUnique(Func<UniqueByT, Task<ValueT>> valueFactory)
     {
         this.valueFactory = valueFactory;
     }

@@ -1,7 +1,7 @@
 using System.Collections.Concurrent;
 using System.Reactive.Subjects;
 
-namespace CosmosPeddler.SDK.Observables;
+namespace CosmosPeddler.SDK.Collections;
 
 public class LazySubject<T> : SubjectBase<T>
 {

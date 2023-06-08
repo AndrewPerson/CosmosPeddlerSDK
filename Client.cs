@@ -1,10 +1,10 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using System.Reactive.Linq;
 
 using Polly;
 using Polly.Retry;
 
-using CosmosPeddler.SDK.Observables;
+using CosmosPeddler.SDK.Collections;
 using CosmosPeddler.SDK.Internal;
 
 namespace CosmosPeddler.SDK;
@@ -40,11 +40,11 @@ public class CosmosPeddlerClient
 
     public LazyUniqueBySubject<string, Ship> Ships { get; }
 
-    public IndividualLazyUniqueBySubject<string, Cooldown> Cooldowns { get; }
+    public IndividualLazyUnique<string, Cooldown> Cooldowns { get; }
 
     public LazyUniqueBySubject<string, SolarSystem> SolarSystems { get; }
 
-    public IndividualLazyUniqueBySubject<string, Waypoint> Waypoints { get; }
+    public IndividualLazyUnique<string, Waypoint> Waypoints { get; }
 
     public static async Task<CosmosPeddlerClient> Register(string accountSymbol, string faction, string email = "")
     {
