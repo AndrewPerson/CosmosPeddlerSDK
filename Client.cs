@@ -84,7 +84,7 @@ public class CosmosPeddlerClient
 
     private CosmosPeddlerClient(string token, ICosmosLogger? logger = null)
     {
-        client = new SpaceTradersClient(new HttpClient(new SpaceTradersHandler(new HttpClientHandler())), token);
+        client = new SpaceTradersClient(new HttpClient(new SpaceTradersHandler(new HttpClientHandler(), logger)), token);
 
         this.logger = logger;
 
@@ -127,9 +127,9 @@ public class CosmosPeddlerClient
     }
 
 #region factions
-    public static async IAsyncEnumerable<FullFaction> GetAllFactions(int pageSize = 20)
+    public static async IAsyncEnumerable<FullFaction> GetAllFactions(int pageSize = 20, ICosmosLogger? logger = null)
     {
-        var client = new SpaceTradersClient(new HttpClient(new SpaceTradersHandler(new HttpClientHandler())));
+        var client = new SpaceTradersClient(new HttpClient(new SpaceTradersHandler(new HttpClientHandler(), logger)));
 
         int total;
         int currentPage = 1;
