@@ -46,6 +46,8 @@ public class CosmosPeddlerClient
 
     public IndividualLazyUnique<string, Waypoint> Waypoints { get; }
 
+    public LazyDictionary<string, LazyUniqueBySubject<string, Waypoint>> SystemWaypoints { get; }
+
     public static async Task<CosmosPeddlerClient> Register(string accountSymbol, string faction, string email = "")
     {
         var client = new SpaceTradersClient(new HttpClient(new SpaceTradersHandler(new HttpClientHandler())));
@@ -102,6 +104,15 @@ public class CosmosPeddlerClient
         Waypoints = new
         (
             valueFactory: waypointSymbol => GetWaypoint(waypointSymbol)
+        );
+
+        SystemWaypoints = new
+        (
+            getValue: systemSymbol => new
+            (
+                getKey: waypoint => waypoint.Symbol,
+                firstValues: () => GetSystemWaypoints(systemSymbol)
+            )
         );
     }
 
@@ -423,6 +434,24 @@ public class CosmosPeddlerClient
         {
             yield return SolarSystemData.FromInternal(system);
         }
+    }
+
+    private async IAsyncEnumerable<Waypoint> GetSystemWaypoints(string systemSymbol, int pageSize = 20)
+    {
+        int total;
+        int currentPage = 1;
+        do
+        {
+            var data = await retry429Policy.ExecuteAsync(() => client.GetSystemWaypointsAsync(currentPage, pageSize, systemSymbol));
+
+            total = data.Meta.Total;
+    
+            foreach (var waypoint in data.Data.Select(Waypoint.FromInternal))
+            {
+                yield return waypoint;
+            }
+        }
+        while (total > pageSize * currentPage++);
     }
 
     private async Task<Waypoint> GetWaypoint(string waypointSymbol)
